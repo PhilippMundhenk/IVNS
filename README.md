@@ -4,4 +4,4 @@
 The In-Vehicle Network Simulator (IVNS) is a Python-based simulator, allowing to evaluate parameterized software models of automotive networks for timing and security, among others.
 
 #Release
-The software is currently sorted and will be released soon.
+The IVNS is currently being organized and will be uplaoded soon.
