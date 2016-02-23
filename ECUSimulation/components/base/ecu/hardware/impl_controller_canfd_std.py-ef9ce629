@@ -1,0 +1,12 @@
+from components.base.ecu.hardware.abst_controller import AbstractController
+from tools.ecu_logging import try_ex
+
+
+class StdCanFDController(AbstractController):
+    ''' 
+    This Class implements a CAN FD Controller 
+    '''
+    
+    def __init__(self, sim_env):
+        AbstractController.__init__(self, sim_env)
+        

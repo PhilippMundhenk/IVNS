@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:timing xmlns:tns="http://www.tum-create.edu.sg/timingSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.tum-create.edu.sg/timingSchema ../timingSchema.xsd ">
+  
+  <tns:timingMappings>
+  	<tns:timingMapping name="STDTL_SEND_PROCESS" class="StdTransportLayer">
+  		<tns:dbLookupSpecs>
+  			<tns:dbLookupSpec dbpath="measurements.db" lookupid="1" id="DBLookup_1">
+  				<tns:variable name="STDAL_SYM_CERTIFICATE_ALGORITHM" config="PROJECT" type="SymAuthMechEnum">
+  					<tns:value>AES</tns:value>
+  				</tns:variable>
+  				<tns:variable name="SSCM_ECU_REG_MSG_SIZE" config="PROJECT" type="number">
+  					<tns:value>20</tns:value>
+  				</tns:variable>
+  			</tns:dbLookupSpec>
+  			<tns:dbLookupSpec dbpath="measurements.db" lookupid="2" id="DBLookup_2">
+  				<tns:variable name="STDAL_SYM_CERTIFICATE_ALGORITHM" config="PROJECT" type="SymAuthMechEnum">
+  					<tns:value>DES</tns:value>
+  				</tns:variable>
+  			</tns:dbLookupSpec>
+  		</tns:dbLookupSpecs>
+  		<tns:dbInterpolSpecs></tns:dbInterpolSpecs>
+  	</tns:timingMapping></tns:timingMappings>
+  <tns:dbLookups>
+  	<tns:dbLookup id="1">
+  		<tns:dbLookupDesc>This lookup ascertains the time needed to decrypt a 64 Bit element via AES</tns:dbLookupDesc>
+  		<tns:dbLookupRequest>SELECT * FROM Measurements WHERE Type = 'DECRYPTION' AND Variant = 'MIC_1' AND Datasize=8 AND Algorithm = 'DES' AND Keysize = 128</tns:dbLookupRequest>
+  	</tns:dbLookup>
+  	  	<tns:dbLookup id="2">
+  		<tns:dbLookupDesc>This lookup ascertains the time needed to encrypt a 64 Bit element via AES</tns:dbLookupDesc>
+  		<tns:dbLookupRequest>SELECT * FROM Measurements WHERE Type = 'DECRYPTION' AND Variant = 'MIC_1' AND Datasize=8 AND Algorithm = 'AES' AND Keysize = 128</tns:dbLookupRequest>
+  	</tns:dbLookup>
+  </tns:dbLookups>
+</tns:timing>
+

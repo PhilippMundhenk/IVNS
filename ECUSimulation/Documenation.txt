@@ -1,0 +1,121 @@
+List of Parameters to set for each ECU:
+
+(*) This parameter is synchronized by the API in the following way. If a value was set for this
+	parameter in a ECU this value is used. If no value was set for this parameter the default parameter	
+	from the project.ini is used. If this value is set in the Sec Module but not in the ECU, the value 
+	of the ECU is set for the ECU Parameter. If both a value for ECU and Sec Mod was set both modules
+	will have their own value.
+
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo 
+										SecureECU 
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  Mandatory !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+------------------------ Sending Sizes ------------------------
+	- p_req_msg_sending_size:				("optional")Size of a REGISTRATION message interpreted by the Bus sizeof()
+	- p_reg_msg_sending_size:				("optional")Size of a REQUEST message interpreted by the Bus
+	- p_ecu_cert_sending_size:				Size of a ECU Certificate interpreted by the Bus
+	
+------------------------ Certification Parameter ------------------------
+	- p_ecu_auth_cert_hash_mech:			(*)Hashing Algorithm used when signing the certificate	
+	- p_ecu_auth_cert_enc_mech:				(*)Encryption Algorithm used when signing the certificate
+	- p_ecu_auth_cert_enc_keylen:			(*)Keylength in Algorithm used when signing the certificate
+	- p_ecu_auth_cert_ca_len:				(*)Number of CAs to root certificate
+	- p_ecu_auth_cert_hash_unsigned_size:	(*)Size of the hash that will be signed (Outputsize from p_ecu_auth_cert_hash_mech)
+	- p_ecu_auth_cert_hash_signed_size:		(*)Size of the signature after encryption (Outputsize from p_ecu_auth_cert_enc_mech)
+	
+------------------------ ECU Authentication Parameter ------------------------
+	- p_ecu_sym_key_alg:					Encryption Algorithm for symmetric key of ECU used for ECU Authentication
+	- p_ecu_sym_key_keylen:					Keylength for Algorithm for symmetric key of ECU used for ECU Authentication
+	
+	- p_reg_msg_hash_alg:					(*)hash Algorithm used to hash the inner registration message 
+	- p_reg_msg_outter_enc_alg:				(*)Encryption Algorithm used for the PrivateEncryption(sign) of the outter REGISTRATION Message
+	- p_reg_msg_outter_enc_keylen:			(*)Keylength for Algorithm used for the PrivateEncryption(sign) of the outter REGISTRATION Message
+	
+	- p_reg_msg_inner_enc_method:			(*)Encryption method used for the public encryption of the inner registration message
+	- p_reg_msg_inner_enc_keylen:			(*)Keylength in the encrypion method used for the public encryption of the inner registration message
+	- p_reg_msg_inner_content_size:			(*)Size of the inner part of the registration message (= [sec_id, sym_key, nonce, timestamp])
+	
+	- p_ecu_auth_conf_msg_size:				(*)Size of the confirmation message to be encrypted
+
+------------------------ Stream Authorization Parameter ------------------------
+	- p_req_msg_content_size:				(*)Size of the request message before encryption
+
+	- p_grant_msg_content_size:				(*to p_str_auth_grant_msg_content_size)Size of the grant/deny message before encryption
+	
+	
+!!!!!!!!!!!!!!!!!!!!!!!!!!!  Optional (else calculated from mandatory) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	- p_reg_msg_inner_cipher_size:			Size of the cipher after encrypting the inner registration message
+	- p_reg_msg_outter_cipher_size:			Size of the cipher after encrypting the outer registration message
+	- p_reg_msg_outter_hash_size:			Size of the hash resulting from hashing the inner registration message content
+	- p_conf_msg_cipher_size:				Size of the cipher after encrypting the confirmation message
+	
+	- p_req_msg_cipher_size:				Size of the request message after encryption
+	- p_grant_msg_cipher_size:				Size of the grant/deny message after encryption
+	
+	
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo 
+									SecLwAuthSecurityModule 
+oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  Mandatory !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+------------------------ Sending Sizes ------------------------
+	- p_sec_mod_cert_size:					Size of a SecModule Certificate (ECU Advertisement) message interpreted by the Bus
+	- p_sec_mod_conf_msg_sending_size:		("optional")Size of a Confirmation message interpreted by the Bus	# Same as SCCM_ECU_CONF_MSG_CIPHER_SIZE
+	- p_str_auth_deny_msg_sending_size:		("optional")Size of a Deny message interpreted by the Bus			# Same as p_str_auth_grant_msg_cipher_size
+	- p_str_auth_grant_msg_sending_size:	("optional")Size of a Grant message interpreted by the Bus			# Same as p_str_auth_grant_msg_cipher_size
+
+------------------------ Certification Parameter ------------------------
+	- p_sec_mod_cert_hashing_mech:			(*)Hashing Algorithm used when signing the certificate	
+	- p_sec_mod_cert_enc_mech:				(*)Encryption Algorithm used when signing the certificate
+	- p_sec_mod_cert_enc_keylen:			(*)Keylength in Algorithm used when signing the certificate
+	- p_sec_mod_cert_ca_len:				(*)Number of CAs to root certificate
+	- p_sec_mod_cert_hash_size:				(*)Size of the hash that will be signed (Outputsize from p_ecu_auth_cert_hash_mech)
+	- p_sec_mod_cert_signed_hash_size:		(*)Size of the signature after encryption (Outputsize from p_ecu_auth_cert_enc_mech)
+	
+------------------------ ECU Authentication Parameter ------------------------
+	- p_reg_msg_hash_alg:					(*)hash Algorithm used to hash the inner registration message (synced with ECU)
+	- p_reg_msg_inner_enc_method:			(*)hash Algorithm used to hash the inner registration message (synced with ECU)
+	- p_reg_msg_inner_enc_keylen:			(*)Keylength in the encrypion method used for the public encryption of the inner registration message (synced with ECU)
+
+	- p_reg_msg_inner_content_size:			(*)Size of the inner part of the registration message (= [sec_id, sym_key, nonce, timestamp]) (Synced with ECU)
+	
+	- p_reg_msg_outter_enc_alg:				(*)Encryption Algorithm used for the PrivateEncryption(sign) of the outter REGISTRATION Message	(Synced with ECU)
+	- p_reg_msg_outter_enc_keylen:			(*)Keylength for Algorithm used for the PrivateEncryption(sign) of the outter REGISTRATION Message	(Synced with ECU)
+	
+	- p_ecu_auth_conf_msg_size:				(*)Size of the confirmation message before being encrypted (ecu_id, nonce, time)
+	
+------------------------ Stream Authorization Parameter ------------------------
+	- p_req_msg_content_size:				(*)Size of the request message before encryption sizeof([req_ecu_id, stream_id, self.nonce, timestamp])
+	- p_grant_msg_content_size:			(*to p_grant_msg_content_size)Size of the grant/deny message before encryption sizeof[receiver_id, stream_id, session_key, nonce, timestamp]
+	
+	- p_str_auth_ses_key_enc_alg:			Encryption Algorithm used in the session key
+	- p_str_auth_ses_key_enc_keylen:		Keylength in Encryption Algorithm used in the session key
+	- p_str_auth_ses_key_validity:			Validity Duration of the session key
+	
+!!!!!!!!!!!!!!!!!!!!!!!!!!!  Optional (else calculated from mandatory) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	- p_reg_msg_inner_cipher_size:			Size of the cipher after encrypting the inner registration message
+	- p_reg_msg_outter_cipher_size:			Size of the cipher after encrypting the outer registration message
+	- p_reg_msg_outter_hash_size:			Size of the hash resulting from hashing the inner registration message content
+	
+	- p_conf_msg_cipher_size:		Size of the cipher after encrypting the confirmation message
+	- p_req_msg_cipher_size:				Size of the request message after encryption
+	- p_grant_msg_cipher_size:		Size of the grant/deny message after encryption
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+

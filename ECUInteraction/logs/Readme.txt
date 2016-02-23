@@ -1,0 +1,1 @@
+This is the folder for all logfiles. Logfiles should not be checked in to the repository (already ignored in .hgignore)

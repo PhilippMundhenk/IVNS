@@ -1,0 +1,145 @@
+
+import simpy
+from components.base.bus.abst_bus_can import AbstractCANBus
+import config.timing_registration as time
+from tools.general import General as G, RefList
+from config import project_registration as proj
+from tools.ecu_logging import ECULogger as L, try_ex
+from io_processing.surveillance_handler import MonitorInput, MonitorTags
+import uuid
+from components.base.bus.impl_bus_can import StdCANBus
+
+class NoArbitCANBus(StdCANBus):
+    '''
+    This class implements a CAN Bus on an
+    abstracted level 
+    '''
+    
+    def __init__(self, sim_env, bus_id, data_rate, avg_ecu_dist=2):
+        AbstractCANBus.__init__(self, sim_env, bus_id, data_rate, avg_ecu_dist)
+        
+        ''' bus objects '''
+        self.current_message = None  # current message on the bus [sender_ecu, message]
+        self.set_settings()
+        self.monitor_lst = RefList()
+        self.sync_1 = simpy.Store(self.sim_env, capacity=1)  # if the decision, who is allowed to sent is done this synchronizer starts the transmission
+                
+        ''' Timing parameters '''
+        self.SCB_GATHER_MSGS = time.SCB_GATHER_MSGS
+        self.SCB_GRAB_PRIO_MSG = time.SCB_GRAB_PRIO_MSG
+        self.SCB_PROPAGATION_DELAY = time.SCB_PROPAGATION_DELAY
+        self.SCB_SENDING_TIME = time.SCB_SENDING_TIME
+        self.SCB_WRITE_TO_TRANSCEIVER_BUFFER = time.SCB_WRITE_TO_TRANSCEIVER_BUFFER
+
+    @try_ex
+    def set_settings(self):
+        self.settings = {}
+        
+        # Parameter for Authenticator
+        self.settings['t_gather_msg'] = 'SCB_GATHER_MSGS'
+        self.settings['t_grab_prio_msg'] = 'SCB_GRAB_PRIO_MSG'
+        self.settings['t_propagation_delay'] = 'SCB_PROPAGATION_DELAY'
+        self.settings['t_sending_time'] = 'SCB_SENDING_TIME'
+        self.settings['t_write_to_transceiver_buffer'] = 'SCB_WRITE_TO_TRANSCEIVER_BUFFER'
+
+
+    @try_ex
+    def put_message(self, msg):
+        ''' if more than one message is to be sent within a period (assumed at the same time), the one 
+            with lower msg_id wins and the other one must be informed to retry
+            
+            Input: msg     AbstractBusMessage'''
+        
+        
+        
+        if self.current_message != None:
+            return False
+        else:
+            self.current_message = msg
+            self.sync_1.put(True)
+            
+            return True
+        yield self.sim_env.timeout(0.000000000001)
+        
+        
+        
+    @try_ex
+    def process(self):
+        ''' Does the actual transmission of data'''
+        
+        while True:           
+            
+            # wait until msg put on line
+            yield self.sync_1.get() 
+            
+            # transmit to all ECUs except the sending one (if message on line)
+            if self.current_message != None:
+                
+                # Monitor
+                uid = uuid.uuid4()
+                msg_uid = self.current_message.data.unique_id
+                data = self.current_message.data.get(); tag = MonitorTags.CB_PROCESSING_MESSAGE; c_id = self.comp_id; sender_id = self.current_message.sender_id; msg_id = self.current_message.message_identifier
+                msg = self.current_message; size = self.current_message.msg_length_in_bit / 8; msg_uid = msg_uid.hex                
+                G().mon(self.monitor_lst, MonitorInput(data, tag, c_id, self.sim_env.now, sender_id, msg_id, msg, size, msg_id, uid.hex))
+                
+                t_propagation = time.call(self.SCB_PROPAGATION_DELAY, self.avg_dist_between_ecus)  # either constant or calculated depending on config
+                t_sending = time.call(self.SCB_SENDING_TIME, self.current_message.msg_length_in_bit, proj.BUS_ECU_DATARATE)  # either constant or calculated depending on config
+        
+                try: L().log(300, self.sim_env.now, self.current_message.sender_id, len(self.current_message.data), self.current_message.msg_length_in_bit, self.comp_id, self.current_message.data.get(), t_propagation + t_sending) 
+                except: L().log(300, self.sim_env.now, self.current_message.sender_id, len(self.current_message.data), self.current_message.msg_length_in_bit, self.comp_id, self.current_message.data, t_propagation + t_sending)
+                
+                G().to_t(self.sim_env, t_propagation + t_sending + self.SCB_WRITE_TO_TRANSCEIVER_BUFFER, 'SCB_PROPAGATION_DELAY+SCB_SENDING_TIME+SCB_WRITE_TO_TRANSCEIVER_BUFFER', self.__class__.__name__, self)
+                yield self.sim_env.timeout(t_propagation + t_sending + self.SCB_WRITE_TO_TRANSCEIVER_BUFFER)  # Duration of transmission                                
+        
+                # write to buffer        
+                for ecu in self.connected_ecus:
+                    # Gateway sends avoid sending to itself (loops!)
+                    if self._gw_sends(ecu):
+                        continue
+        
+                    # ECU sends avoid sending to itself
+                    if(ecu.ecu_id != self.current_message.sender_id):
+                        self.current_message.current_bus = self.comp_id
+                        ecu.ecuHW.transceiver.get(self.current_message)
+                self._reset_transmission()  # reset
+
+                # Monitor
+                G().mon(self.monitor_lst, MonitorInput(data, MonitorTags.CB_DONE_PROCESSING_MESSAGE, c_id, self.sim_env.now, sender_id, msg_id, msg, size, -1, uid.hex))
+            
+            
+    @try_ex
+    def _get_highest_prio_msg(self, msg_lst):
+        
+        min_val = float("inf")
+        msg = None
+        for cur_m in msg_lst:            
+            if min_val > cur_m.message_identifier:
+                min_val = cur_m.message_identifier
+                msg = cur_m
+        return msg
+
+    @try_ex
+    def _reset_transmission(self):
+        self.current_message = None  # message is not on the line anymore
+        self.pot_messages = []  # reset
+
+    @try_ex
+    def _gw_sends(self, ecu):
+        ''' if gateway is the sender let it continue 
+            and reset the message state'''
+        try:
+            if ecu.ecu_id in self.current_message.gw_id:  # send message back and forth send could lead to errors: need to reset gw_id list
+                return True
+        except:
+            return False
+        
+        return False
+        
+    def monitor_update(self):         
+        
+        self.monitor_lst.clear_on_access()  # on the next access the list will be cleared        
+        return self.monitor_lst.get()
+
+        
+        
+        

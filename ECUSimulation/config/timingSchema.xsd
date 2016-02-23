@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.tum-create.edu.sg/timingSchema" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.tum-create.edu.sg/timingSchema">
+
+
+
+
+
+    <complexType name="Timing">
+    	<sequence>
+    		<element name="timingMappings" type="tns:TimingMappings" minOccurs="1" maxOccurs="1"></element>
+    		<element name="dbLookups" type="tns:DBLookups" minOccurs="1" maxOccurs="1"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="TimingMappings">
+    	<sequence>
+    		<element name="timingMapping" type="tns:TimingMapping" minOccurs="0" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+    
+
+
+    <complexType name="DBLookups">
+    	<sequence>
+    		<element name="dbLookup" type="tns:DBLookup" minOccurs="0" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="TimingMapping">
+    	<sequence>
+    		<element name="dbLookupSpecs" type="tns:DBLookupSpecs" minOccurs="1" maxOccurs="1"></element>
+    		<element name="dbInterpolSpecs"
+    			type="tns:DBInterpolSpecs" minOccurs="1" maxOccurs="1">
+    		</element>
+    	</sequence>
+    	<attribute name="name" type="string"></attribute>
+    	<attribute name="class" type="string"></attribute>
+    </complexType>
+
+
+    <complexType name="DBLookupSpecs">
+    	<sequence>
+    		<element name="dbLookupSpec" type="tns:DBLookupSpec" minOccurs="0" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="DBLookupSpec">
+    	<sequence>
+    		<element name="variable" type="tns:Variable" minOccurs="1" maxOccurs="unbounded"></element>
+    	</sequence>
+    	<attribute name="id" type="string" use="required"></attribute>
+    	<attribute name="dbpath" type="string" use="required"></attribute>
+    	<attribute name="lookupid" type="string" use="required"></attribute>
+    </complexType>
+
+    <complexType name="DBInterpolSpecs">
+    	<sequence>
+    		<element name="dbInterpolationSpec"
+    			type="tns:DBInterpolSpec" minOccurs="0" maxOccurs="unbounded">
+    		</element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="DBInterpolSpec">
+    	<sequence>
+    		<element name="variable" type="tns:Variable" minOccurs="1" maxOccurs="unbounded"></element>
+    	</sequence>
+    	<attribute name="id" type="string" use="required"></attribute>
+    	<attribute name="dbpath" type="string" use="required"></attribute>
+    	<attribute name="interpolmethod" type="string" use="required"></attribute>
+    	<attribute name="lookupid" type="string" use="required"></attribute>
+    </complexType>
+
+    <complexType name="Variable">
+    	<choice>
+    		<element name="value" type="string"></element>
+    	</choice>
+    	<attribute name="name" type="string" use="required"></attribute>
+    	<attribute name="type" type="string" use="required"></attribute>
+    	<attribute name="config" type="string" use="required"></attribute>
+    </complexType>
+
+    <complexType name="DBLookup">
+    	<sequence>
+    		<element name="dbLookupDesc" type="string" minOccurs="1" maxOccurs="1"></element>
+    		<element name="dbLookupRequest"
+    			type="string" minOccurs="1" maxOccurs="1">
+    		</element>
+    	</sequence>
+    	<attribute name="id" type="int"></attribute>
+    </complexType>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <element name="timing" type="tns:Timing"></element>
+
+
+
+    <element name="timingMappings" type="tns:TimingMappings"></element>
+    
+    <element name="timingMapping" type="tns:TimingMapping"></element>
+
+    <element name="dbLookupSpec" type="tns:DBLookupSpec"></element>
+
+    <element name="dbInterpolSpec" type="tns:DBInterpolSpec"></element>
+
+    <element name="dbInterpolSpecs" type="tns:DBInterpolSpecs"></element>
+
+    <element name="dbLookup" type="tns:DBLookup"></element>
+
+    <element name="dbLookupDesc" type="string"></element>
+
+    <element name="dbLookupRequest" type="string"></element>
+
+    <element name="dbLookups" type="tns:DBLookups"></element>
+
+    <element name="dbLookupSpecs" type="tns:DBLookupSpecs"></element>
+
+    <element name="variable" type="tns:Variable"></element>
+
+
+
+
+</schema>

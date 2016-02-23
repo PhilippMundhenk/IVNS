@@ -1,0 +1,145 @@
+Parameter:
+(id 1) Security Module Certificate Hashing Method		/////// SECMOD_CERT_HASHING_MECH
+(id 2) Security Module Certificate Encryption Method		/////// SECMOD_CERT_ENCRYPTION_MECH
+(id 18)Security Module Certificate Key Length			/////// SECMOD_CERT_KEYL
+(id 3) Security Module Certificate Chain Laenge			/////// SECMOD_CERT_CA_LEN
+(id 4) Security Module Certificate size				/////// SECMOD_CERT_SIZE_HASH_TO_SIGN
+(id 5) Security Module Signature hashing size			/////// SECMOD_CERT_SIZE_HASH
+
+
+-- REGISTRATION MESSAGE --
+(id 6)  Symmetric Algorithm used (AES)				/////// SCCM_ECU_SYM_KEY_ENC_ALG
+(id 7)	generated Key Size 					/////// SCCM_ECU_SYM_KEY_ENC_KEY_LEN
+
+(id 8)  Registration inner size of [self.sec_id, self.sym_key, nonce, timestamp]/////// SSMA_REG_MSG_CT_SIZE_INNER
+(id 9)  Registration Method inner Encryption Method, encrypted with public key	///////	SSMA_SECM_PUB_ENC_ALG
+(id 10) Registration inner Encryption Key Length (public key)		/////// SSMA_SECM_PUB_ENC_KEY_LEN
+		FRAGE: Generation of this key egal??? 
+(id 11) Registration inner size after this encryption			/////// SSMA_REG_MSG_CIPHER_SIZE_INNER
+
+
+(id 12) Hashing Method used in registration Message		/////// SCCM_ECU_REG_MSG_HASH
+(id 13)	resulting Hash Size from that registration message	/////// SCCM_ECU_REG_MSG_HASH_LEN
+
+(id 14) Registration Message outter Encryption Method 		/////// SCCM_ECU_PUB_ENC_ALG /////// 
+(id 15) Key Length used for encryption of outter method		/////// SCCM_ECU_PUB_ENC_KEY_LEN /////// 
+(id 16) Size of resulting cipher text				/////// SSMA_REG_MSG_CIPHER_SIZE_OUTER
+
+
+(id 17) Size of confirmation message unencrypted		/////// SCCM_ECU_CONF_MSG_SIZE
+(id 6 SAME!) Method used for confirmation message encryption	/////// SCCM_ECU_SYM_KEY_ENC_ALG
+(id 7 SAME!) Keylength used for confirmation message encryption /////// SCCM_ECU_SYM_KEY_ENC_KEY_LEN
+(id 18) size of confirmation message encrypted			/////// SCCM_ECU_CONF_MSG_CIPHER_SIZE
+
+(id 19) ECU Certificate Hashing Method				/////// ECU_CERT_HASHING_MECH
+(id 20) ECU Certificate Encryption Method			/////// ECU_CERT_ENCRYPTION_MECH
+(id 21) ECU Certificate Key Length				/////// ECU_CERT_KEYL
+(id 22) ECU Certificate Chain Laenge				/////// ECU_CERT_CA_LEN
+(id 23) ECU Certificate size		-> Hashing time		/////// ECU_CERT_SIZE_HASH_TO_SIGN
+(id 24) ECU Signature hashing size				/////// ECU_CERT_SIZE_HASH
+
+
+(id 25) size of request message content				/////// SSMA_SIZE_REQ_MSG_CONTENT
+(id 26) size of request message content after being encrypted with (id 6) (id 7) /////// SSMA_SIZE_REQ_MSG_CIPHER
+
+
+(id 27)  Symmetric Algorithm used (AES)			/////// SSMA_SECM_SES_KEY_ENC_ALG /////// 
+(id 28)  generated Key Size 				/////// SSMA_SECM_SES_KEY_ENC_KEY_LEN /////// 
+
+(id 29)  number of receivers plus sender 			
+(id 30)	 size of grant/deny message [receiver_id, stream_id, session_key, nonce, timestamp] /////// SSMA_GRANT_MSG_CT_SIZE
+(id 31)	 size of grant/deny message after encryption				/////// SSMA_GRANT_MSG_CIPHER_SIZE
+
+(id 32) the VARYING size of a message
+(id 33) the VARYING size of a encrypted message
+
+ECU Authentication:
+	- receive it:
+		-> verify Sec Certificate
+
+			/////// SCCM_ECU_ADV_SEC_MOD_CERT_VAL ///////////
+			verify it using TIME_A: depends on (id 2) (id 18) (id 5) to get clear signature for verification
+			(use public key!)	depends on (id 1) to create hash comparision hash
+		(i.e. verify operation...)	depends on (id 3) to determine how often it is done
+						
+
+
+	- send Registration Message
+
+		ACHTUNG: VERNACHLAESSIGE CREATION VON ASSYMMETRIC KEY PAIR (genau hier) !!!!!!!!!!!
+		-> create an assymetric key pair: (id 9), (id 10)	
+		
+		   /////// SCCM_ECU_ENC_REG_MSG_CREATE_SYM_KEY /////// 
+		-> create symmetric key TIME_B: depends on (id 6) (id 7)
+		
+		   /////// SCCM_ECU_ENC_REG_MSG_INNER /////// 
+		-> encrypt inner part of reg msg TIME_C: depends on (id 8) (id 9) (id 10)
+
+		   /////// SCCM_ECU_HASH_REG_MSG /////// 
+		-> hash part of the message
+			time to do that TIME_D: depends on (id 8) (id 12)
+		   /////// SCCM_ECU_ENC_REG_MSG_OUTTER ///////
+		-> Encrypt the outter registration message with private key == SIGN a hash!!!!!
+			time to do that TIME_E:	
+				depends on hash size that is: (id 13)
+				depends on used method (id 14)
+				depends on used keyLength (id 15)
+	
+
+	- receive Registration Message		 
+
+		   /////// SSMA_DECR_INNER_REG_MSG///////
+		-> decrypt inner message TIME_F: depends on (id 11), (id 9), (id 10)
+
+		   /////// SSMA_DECR_OUTTER_REG_MSG ///////
+		-> decrypt outter message TIME_G: (id 14) (id 15) (id 16)
+
+		   /////// SSMA_CREATE_CMP_HASH_REG_MSG ///////		   
+		-> time to create comparision hash TIME_H: (id 8) (id 12)
+
+		   /////// SSMA_VALID_CERT_REG_MSG ///////
+		-> check ecu certificate TIME_I: depends on (id 20) (id 21) (id 24) to get clear signature for verification
+			(use public key!)	 depends on (id 19) to create hash comparision hash
+		(i.e. verify operation...)	 depends on (id 22) to determine how often it is done
+
+	- send Confirmation Message:
+		   /////// SSMA_ENCR_CONF_MSG_ECU_KEY ///////
+		-> time to encrypt the message TIME_J: (id 17) (id 6) (id 7)
+
+	- receive Confirmation Message:
+		   /////// SCCM_ECU_DEC_CONF_MSG ///////
+		-> time to decrypt the message TIME_K:  (id 18) (id 6) (id 7)
+
+
+
+Stream Authorization:
+	- send request message:
+		/////// SCCM_STREAM_ENC_REQ_MSG ///////
+		encrypt the message with the generated key TIME_L: (id 6) (id 7) (id 25) symmetric
+	
+	- receive request message
+		/////// SSMA_STREAM_REQ_INI_DECR ///////
+		decrypt that message TIME_M: (id 26) (id 6) (id 7)
+
+	- send grant message or deny message
+		/////// SSMA_SESS_KEYGEN_GRANT_MSG ///////
+		generate a session key TIME_N: (id 27) (id 28)
+
+		/////// SSMA_STREAM_ENC_GRANT_MSG ///////
+		encrypt the message with key TIME_O: (id 29) (id 30) (id 27) (id 28)
+
+	- receive grant/deny message: 
+		time to decrypt it:
+			/////// SCCM_STREAM_DEC_DENY_MSG ///<-and->/// SCCM_STREAM_DEC_GRANT_MSG///////
+			TIME_P: (id 31) (id 27) (id 28)
+		
+		
+
+
+Simple Message Flow:
+	  /////// SCCM_STREAM_ENC_SIMP_MSG_SESS_KEY ////////
+	- every send message: (id 32) (id 27) (id 28)
+
+	  /////// SCCM_STREAM_DEC_SIMP_MSG_SESS_KEY ///////
+	- every received message: (id 33) (id 27) (id 28)
+		
