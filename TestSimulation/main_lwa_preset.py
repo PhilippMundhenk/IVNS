@@ -43,7 +43,7 @@ from components.base.ecu.software.impl_physical_layers import StdPhysicalLayer
 from config.timing_db_admin import TimingDBMap
 
 #===============================================================================
-#     Define predefined settings
+#     Define predefined settings (All that are available provided here)
 #===============================================================================
 LWASpecPresets().preset_ecu = "Crypto_Lib_HW"
 LWASpecPresets().preset_sec_mod = "Crypto_Lib_HW"
@@ -82,7 +82,7 @@ TimingDBMap().enable_fallback_message = True
 
 # register ECUs that are located outside of the usual folders
 # usual folders: components.base.ecu.types and components.security.ecu.types
-api.register_ecu_classes(r"C:\Users\artur.mrowca\workspace\ECUSimulation\components\base\gateways")
+#api.register_ecu_classes(r"C:\Users\artur.mrowca\workspace\ECUSimulation\components\base\gateways")
 
 # setup the logging
 api_log_path = os.path.join(os.path.dirname(__file__), "logs/api.log")

@@ -1,0 +1,8 @@
+MODULES_MANAGER_V2
+main_battery_management|C:\Users\Artur\Documents\TUM CREATE\IVNS\TestSimulation\main_battery_management.py
+main_lwa|C:\Users\Artur\Documents\TUM CREATE\IVNS\TestSimulation\main_lwa.py
+main_lwa_preset|C:\Users\Artur\Documents\TUM CREATE\IVNS\TestSimulation\main_lwa_preset.py
+main_tesla|C:\Users\Artur\Documents\TUM CREATE\IVNS\TestSimulation\main_tesla.py
+main_tesla_preset|C:\Users\Artur\Documents\TUM CREATE\IVNS\TestSimulation\main_tesla_preset.py
+main_tls|C:\Users\Artur\Documents\TUM CREATE\IVNS\TestSimulation\main_tls.py
+main_tls_preset|C:\Users\Artur\Documents\TUM CREATE\IVNS\TestSimulation\main_tls_preset.py

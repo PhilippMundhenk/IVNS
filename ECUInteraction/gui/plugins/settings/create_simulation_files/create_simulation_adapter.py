@@ -2,7 +2,6 @@ from gui.plugins.settings.create_simulation_impl import AbstractAddPlugin
 import uuid
 from tools.ecu_logging import ECULogger
 import api
-from api_core import SimpleECUSpec
 from gui.gui_builder import GBuilder
 from PyQt4.Qt import QVBoxLayout
 from PyQt4.QtGui import QHBoxLayout
@@ -13,6 +12,7 @@ import os
 from components.base.bus.impl_bus_can import StdCANBus
 from components.security.ecu.types.impl_sec_mod_lwa import StdSecurLwSecModTimingFunctions, \
     SecLwAuthSecurityModule
+from api.core.component_specs import SimpleECUSpec
 
 class AddWidgetAdapter(Singleton):
     ''' This class connects the ECU classes to their respective

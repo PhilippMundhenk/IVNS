@@ -1,5 +1,6 @@
 '''
-    this Adapter is designed to wrap the sending and receiving activities of the Battery Management
+    this Adapter is designed to wrap the sending and receiving activities of the Battery Management extension if
+    it is applied.
 '''
 from tools.singleton import Singleton
 import api.ecu_sim_api as api
@@ -35,7 +36,6 @@ class BatManAdministrator(Singleton):
         
     def activate_ecu_simulation(self):
         self.active = True
-        
         
     def adapter_used(self):
         ''' this method returns True if the battery management

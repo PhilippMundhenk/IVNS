@@ -178,8 +178,13 @@ def run_simulation(env):
 
 def show_logging(lev, file_path, show_output):
     ''' shows the logging and saves it to the given
-        file '''
-    ECULogger().enabled = True
+        file 
+        
+        Input:  lev            int/string    specifies the depth of logging as defined in the logging module
+                file_path      string        path to log output file path
+                show_output    bool          specifies if the output is written to the file
+    '''
+    ECULogger().enabled = True    
     if show_output:
         logging.getLogger().setLevel(lev)   
         if not os.path.exists(os.path.dirname(file_path)):
@@ -188,10 +193,15 @@ def show_logging(lev, file_path, show_output):
             open(file_path, 'a').close()
         handler = logging.FileHandler(filename=file_path, mode='w')    
         logging.getLogger().addHandler(handler)
+        
     ECULogger().show_outputf(show_output)
     
 def console_logging(lev, show_output):
-    ''' shows the logging only in the console '''
+    ''' shows logging only in the console 
+    
+    Input:  lev            int/string    specifies the depth of logging as defined in the logging module
+            show_output    bool          specifies if the output is written to the console
+    '''
     ECULogger().enabled = True
     if show_output:
         logging.getLogger().setLevel(lev)

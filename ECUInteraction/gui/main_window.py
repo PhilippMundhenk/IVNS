@@ -24,7 +24,7 @@ from io_processing.surveillance import Monitor
 __title__ = "Automotive Networks Simulator"
 __version__ = "1.0"
 __author__ = "Artur Mrowca"
-__enterprise__ = "TUM Create Limited"
+__enterprise__ = "TUM CREATE Limited"
 __departement__ = "RP3 - Embedded Systems"
 
 

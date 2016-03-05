@@ -1,6 +1,7 @@
 '''
 Created on 24 Jul, 2015
-
+This module can only be used together with the battery managementent simulator 
+which is not provided within this package.
 @author: artur.mrowca
 '''
 import sys

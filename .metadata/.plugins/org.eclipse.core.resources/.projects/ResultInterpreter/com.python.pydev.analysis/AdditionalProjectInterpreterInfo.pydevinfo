@@ -1,0 +1,52 @@
+-- VERSION_4
+-- START DISKCACHE_2
+C:\Users\Artur\Documents\TUM CREATE\IVNS\.metadata\.plugins\org.eclipse.core.resources\.projects\ResultInterpreter\com.python.pydev.analysis\v2_indexcache
+test|1456920055417063000|C:\Users\Artur\Documents\TUM CREATE\IVNS\ResultInterpreter\test.py
+main|1456920055417063000|C:\Users\Artur\Documents\TUM CREATE\IVNS\ResultInterpreter\main.py
+-- END DISKCACHE
+-- START DICTIONARY
+4
+3=D
+1=test
+4=D.__init__
+2=main
+-- END DICTIONARY
+-- START TREE 1
+29
+D|1|D!9@
+_ms|1|_msg_length_in_bit!11@
+a|1|a!19@
+alg|1|alg!19@
+alr|1|already_ok!19@
+bit|2|bit_rep!11@bit!19@
+col|1|col!19@
+con|1|content!19@
+cur|1|cur_dict!19@
+dat|1|data!11@
+def|1|deff!19@
+fil|2|file_path!19@file_name!19@
+fna|1|fname!19@
+fou|1|found!19@
+lst|1|lst_of_lsts!19@
+mod|1|mode!19@
+no_|1|no_stuffing_bits!11@
+out|2|output_folder!19@output_xlsx!19@
+pre|1|prescaler!19@
+r|1|r!19@
+row|1|row!19@
+s_i|1|s_id!19@
+seg|1|seg_type!11@
+sub|1|sub!19@
+t_o|1|t_one_cycle!19@
+tag|1|tag!19@
+wb|1|wb!19@
+wor|2|worksheet!19@workbook!19@
+ws|1|ws!19@
+-- END TREE
+-- START TREE 2
+4
+__i|1|__init__!3&10@
+__l|1|__len__!3&10@
+_si|1|_size!4&11@
+pad|1|padded_size!4&11@
+-- END TREE

@@ -1,0 +1,46 @@
+-- VERSION_4
+-- START DISKCACHE_2
+C:\Users\Artur\Documents\TUM CREATE\IVNS\.metadata\.plugins\org.eclipse.core.resources\.projects\TestSimulation\com.python.pydev.analysis\v2_indexcache
+main_battery_management|1456920055432666000|C:\Users\Artur\Documents\TUM CREATE\IVNS\TestSimulation\main_battery_management.py
+main_tls_preset|1456920055501579000|C:\Users\Artur\Documents\TUM CREATE\IVNS\TestSimulation\main_tls_preset.py
+main_lwa_preset|1456920055479594000|C:\Users\Artur\Documents\TUM CREATE\IVNS\TestSimulation\main_lwa_preset.py
+main_tesla|1456920055485639000|C:\Users\Artur\Documents\TUM CREATE\IVNS\TestSimulation\main_tesla.py
+main_tls|1456924410481006000|C:\Users\Artur\Documents\TUM CREATE\IVNS\TestSimulation\main_tls.py
+main_lwa|1456920055448340000|C:\Users\Artur\Documents\TUM CREATE\IVNS\TestSimulation\main_lwa.py
+main_tesla_preset|1456920055485639000|C:\Users\Artur\Documents\TUM CREATE\IVNS\TestSimulation\main_tesla_preset.py
+-- END DISKCACHE
+-- START DICTIONARY
+7
+7=main_battery_management
+4=main_tls_preset
+2=main_lwa_preset
+6=main_tesla
+5=main_tls
+1=main_lwa
+3=main_tesla_preset
+-- END DICTIONARY
+-- START TREE 1
+19
+all|4|all_ecu_groups!11@all_created_ecus!19@all_created_ecus!11@all_ecu_groups!19@
+api|6|api_log_path!27@api_log_path!35@api_log_path!19@api_log_path!43@api_log_path!51@api_log_path!11@
+bus|12|bus_group!43@bus_group!35@bus_group!11@bus_spec!51@bus_group!19@bus_spec!43@bus_group!27@bus_group!51@bus_spec!11@bus_spec!27@bus_spec!19@bus_spec!35@
+cer|2|certificate_manager!19@certificate_manager!11@
+dir|7|direct_view!43@direct_view!27@direct_view!51@direct_view!11@direct_view!35@direct_view!19@direct_view!59@
+ecu|34|ecu_group_4!35@ecu_group_3!35@ecu_spec!19@ecu_func_set!19@ecu_group_3!51@ecu_group_4!43@ecu_group_4!51@ecu_group_4!11@ecu_func_set!35@ecu_group_3!43@ecu_func_set!27@ecu_group_1!19@ecu_type!59@ecu_group_1!43@ecu_spec!43@ecu_group_1!27@ecu_group_1!11@ecu_spec!35@ecu_spec!59@ecu_ids!11@ecu_group_1!35@ecu_spec!11@ecu_ids!19@ecu_func_set!51@ecu_spec!27@ecu_group_3!11@ecu_group_4!19@ecu_group_3!27@ecu_func_set!11@ecu_group_4!27@ecu_spec!51@ecu_group_1!51@ecu_func_set!43@ecu_group_3!19@
+fil|1|file_name!59@
+fun|4|function_set!11@function_set_2!19@function_set!19@function_set_2!11@
+gat|12|gateway_group_2!35@gateway_group_2!19@gateway_group_2!51@gateway_group_1!43@gateway_group_1!11@gateway_group_2!27@gateway_group_1!35@gateway_group_1!51@gateway_group_1!19@gateway_group_2!43@gateway_group_1!27@gateway_group_2!11@
+mon|3|monitor!11@monitor!19@monitor!59@
+my_|8|my_reader!43@my_reader!27@my_moni!43@my_reader!51@my_moni!35@my_reader!35@my_moni!27@my_moni!51@
+rap|1|rapid!59@
+res|3|result_reader!19@result_reader!11@result_reader!59@
+sav|25|save_path_can!59@save_path_buf!11@save_path_cp_2!27@save_path_cp_2!51@save_path_can!43@save_path_cp!43@save_path_can!35@save_path_cp!59@save_path_cp!35@save_path_buf!27@save_path_can!27@save_path_can!11@save_path_cp!19@save_path_buf!51@save_path_can!51@save_path_cp!27@save_path_buf!43@save_path_cp_2!35@save_path_cp!11@save_path_buf!59@save_path_cp_2!43@save_path_cp!51@save_path_buf!35@save_path_can!19@save_path_buf!19@
+sec|4|security_module!19@sec_mod_group!19@sec_mod_group!11@security_module!11@
+sho|1|show_tags!59@
+sim|6|sim_env!51@sim_env!27@sim_env!35@sim_env!43@sim_env!19@sim_env!11@
+str|12|stream_1!43@stream_1!51@stream_1!35@stream_2!27@stream_2!11@stream_2!35@stream_2!51@stream_2!19@stream_1!27@stream_1!11@stream_2!43@stream_1!19@
+t_s|4|t_set2!35@t_set2!43@t_set2!27@t_set2!51@
+-- END TREE
+-- START TREE 2
+0
+-- END TREE

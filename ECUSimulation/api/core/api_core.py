@@ -19,7 +19,6 @@ from tkinter.font import Font
 from simpy.events import URGENT
 from api.core.component_factories import ECUFactory, BusFactory
 from api.core.component_specs import AutomotiveEnvironmentSpec
-from api.core.io_loader import ECUPickler, ECUUnpickler
 from components.security.certification.cert_manager import CertificateManager
 from components.security.encryption.encryption_tools import EncryptionSize
 from config import can_registration
@@ -352,19 +351,6 @@ class APICore(Singleton):
             Output: -        
         '''
         cert_manager.generate_valid_sec_mod_cert_cfg(sec_mod_id, ca_id, ecu_id_list, valid_from, valid_till)
-    
-     
-    def load_env_spec(self, filepath):   
-        ''' loads the environment that was created from 
-            a file. Currently not working
-            
-            Input:  filepath:                  string                         path to the file to be loaded
-            Output: my_env:                    AutomotiveEnvironmentSpec:     specification of the Environment 
-        ''' 
-        with open(filepath, 'rb') as f:
-            my_env = ECUUnpickler(f).load()
-        return my_env
-    
        
     def open_simulation_stop_button(self, env):
         ''' starts a seperate thread that opens a stop button that 
@@ -466,22 +452,7 @@ class APICore(Singleton):
         # Notify end
         env.gui_lock_sync.release()
         raise SystemExit
-    
-      
-    def save_env_spec(self, env, filepath):
-        ''' saves the environment to a file. Currently not 
-            working
-            
-            Input:  env:                 AutomotiveEnvironmentSpec:     specification of the Environment
-                    filepath:            string:                        path to the file to be saved
-            Output: -
-        '''
         
-        with open(filepath, 'wb') as f:     
-            ECUPickler(f).dump(env)
-        # logging.info("Successfully written environment to '%s'" % filepath)
-               
-      
     def set_app_lifetime(self, env, app_lifetime):
         ''' sets the lifetime of the application
             

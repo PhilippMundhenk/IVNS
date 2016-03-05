@@ -1,0 +1,239 @@
+from environment.automotive_environment import AutomotiveEnvironment
+import threading
+
+class AutomotiveEnvironmentSpec(object):
+    ''' 
+    This class holds the information needed to generate a 
+    valid simulation. From this object the simulation is then 
+    generated.
+    '''    
+    CNT = 0
+    
+    def __init__(self, app_lifetime):
+        ''' Constructor
+        
+            Input: app_lifetime    number    lifetime of the simpy.environment            
+            Output: -        
+        '''
+        self.id = "Environment " + str(AutomotiveEnvironmentSpec.CNT)
+        AutomotiveEnvironmentSpec.CNT += 1
+        
+        self.result_reader = None
+        self.autoset_gateway_filters = []
+        self.ecu_ids = []
+        self.ecu_groups = []
+        self.bus_ids = []
+        self.gui_lock_sync = threading.Lock()
+        self.busses = []        
+        self.bus_connections = []                
+        self.sec_mod_ecu_register = {}        
+        self.auto_environment = AutomotiveEnvironment()        
+        self.use_predefined_certification = False
+        self.apply_certification = False
+        self.cert_manager = None
+        self.sim_param = None
+        self.timing_map = {}
+        self.use_predefined_certification = []
+        self.app_lifetime = app_lifetime
+        self.monitor = False
+        self.derived_msg_sizes = {}  # key[ECUID][setting]
+        
+        self.but_thread = None
+    
+    
+    def get_env(self):
+        ''' returns the corresponding simpy.environment 
+        
+            Input:  -       
+            Output: env        simpy.Environment    corresponding simpy.environment 
+        '''
+        return self.auto_environment.get_env()
+    
+    def set_env(self, env):
+        ''' this method sets the simpy.Environment
+            
+            Input:    env    simpy.Environment     environment to be used for this environment
+            Output:   -
+        '''
+        self.auto_environment.set_env(env)
+
+class AbstractECUSpec(object):
+    '''
+    this class holds the configurations for AbstractECUs that will 
+    be generated over the API
+    '''
+    
+    def __init__(self, id_list, size_sending_buffer, size_receive_buffer):
+        self.ecu_id_list = id_list        
+        self.sending_buf_sz = size_sending_buffer
+        self.receiving_buf_sz = size_receive_buffer
+
+class SimpleECUSpec(AbstractECUSpec):
+    ''' This Spec needs to be passed for the ECUs of type
+        SimpleECU, SecureECU, TlsECU, SecLwAuthSecurityModule'''
+
+    
+    def __init__(self, id_list, size_sending_buffer, size_receive_buffer):
+        ''' Constructor
+        
+            Input:  id_list                list       List of strings that define the ids of the ECUs that will be generated with this ECUSpec
+                    size_sending_buffer    int        Size of the sending buffer of ECUs that are generated with this ECUSpec
+                    size_receive_buffer    int        Size of the receiving buffer of ECUs that are generated with this ECUSpec
+            Output: -
+        '''
+        
+        # General Settings
+        self.apply_jitter = False
+        self.is_authenticated = False
+        self.ecu_id_list = id_list        
+        self.sending_buf_sz = size_sending_buffer
+        self.receiving_buf_sz = size_receive_buffer
+        self.constr_params = [size_sending_buffer, size_receive_buffer]  # Parameters to call constructor, if other constructor needed inherit this class and redefine
+        self.startup_delay = False
+        
+        # timing_values_setzen (einfach setzen aus DB oder wo auch immer)
+        self.timing_map_vals = {}
+ 
+    def set_startup_delay(self, start_time):
+        ''' this method sets the startup delay. When this delay is set
+            this ECU is activated after the defined start time
+        
+            Input:    start_time    float        time when the ECU starts running
+            
+            Output:    -
+        '''
+        self.startup_delay = start_time
+        
+    
+    def set_apply_jitter(self, dispersion):
+        ''' sets the range within which the jitter value which
+            will be multiplied onto each timeout value will be
+            e.g. dispersion of 0.1 means that any random value
+                 between 1.0 and 1.1 will be used 
+            
+            Input:     dispersion:    float    dispersion from 1.0
+            Output:    -        
+        '''
+        self.apply_jitter = dispersion
+ 
+    
+    def set_ecu_setting(self, variable_name, new_value):
+        ''' set a settings value for this ECU
+            e.g. variable_name = 'p_my_variable', new_value = 18
+            
+            Input:      variable_name:    string        setting variable id
+                        new_value         object        new value for this setting
+            Output:     - 
+        '''
+        self.timing_map_vals[variable_name] = new_value
+        
+    
+    def set_authenticated(self, b_auth):
+        ''' sets this ecu already authenticated
+        
+            Input:     b_auth:    boolean        if true this ECU will be already authenticated at the start of the simulation
+            Output:     -
+        '''
+        self.is_authenticated = b_auth
+
+class RegularECUSpec(SimpleECUSpec):
+    ''' 
+    this class specifies the configuration for ECUs that are capable of
+    defining certain sending actions. i.e. defining when to send, what to
+    send and in which intervals to send    
+    '''
+    
+    
+    def __init__(self, id_list, size_sending_buffer, size_receive_buffer):
+        ''' Constructor
+        
+            Input:  id_list                list       List of strings that define the ids of the ECUs that will be generated with this ECUSpec
+                    size_sending_buffer    int        Size of the sending buffer of ECUs that are generated with this ECUSpec
+                    size_receive_buffer    int        Size of the receiving buffer of ECUs that are generated with this ECUSpec
+            Output: -
+        '''
+        SimpleECUSpec.__init__(self, id_list, size_sending_buffer, size_receive_buffer)
+        
+        self.sending_actions = []
+        
+    
+    def add_sending_actions(self, start_time, interval, message_id, data, data_len):
+        ''' add a sending action to this ECUSpec. Defining when to send, what to
+            send and in which intervals to send    
+        
+            Input:  start_time          float            time at which the first packet will be sent
+                    interval            float            interval in which the packets will be sent
+                    message_id          integer          message identifier of the message to send
+                    data                object           data to be sent
+                    data_len            float/integer    length of the data to be sent
+        
+        '''
+        self.sending_actions.append([start_time, interval, message_id, data, data_len])
+
+class TLSECUSpec(RegularECUSpec):
+    '''
+    this class specifies the configuration for TLSECUs
+    '''
+    
+    def __init__(self, id_list, size_sending_buffer, size_receive_buffer):
+        ''' Constructor
+        
+            Input:  id_list                list       List of strings that define the ids of the ECUs that will be generated with this ECUSpec
+                    size_sending_buffer    int        Size of the sending buffer of ECUs that are generated with this ECUSpec
+                    size_receive_buffer    int        Size of the receiving buffer of ECUs that are generated with this ECUSpec
+            Output: -
+        '''
+        RegularECUSpec.__init__(self, id_list, size_sending_buffer, size_receive_buffer)
+
+class SimpleBusSpec(object):
+    '''
+    this class specifies the configuration of the CANBuses    
+    '''
+    
+    def __init__(self, id_list):        
+        ''' Constructor
+        
+            Input:  id_list                list       List of strings that define the ids of the Buses that will be generated with this ECUSpec
+            Output: -
+        '''
+        self.bus_id_list = id_list 
+        
+        self.constr_params = []  # Add here the necessary parameters to create the bus
+      
+class SimpleBusCouplerSpec(object):
+    '''
+    this class specifies the configuration of the Gateways    
+    '''
+    
+    def __init__(self, id_list):       
+        ''' Constructor
+        
+            Input:  id_list                list       List of strings that define the ids of the Gateways that will be generated with this ECUSpec
+            Output: -
+        ''' 
+        self.ecu_id_list = id_list 
+        self.timing_map_vals = {}
+        self.constr_params = []  # Add here the necessary parameters to create the bus
+        self.allowed_msg_ids = []
+           
+        
+    def set_ecu_setting(self, variable_name, new_value):
+        ''' set a settings value for this Gateway
+            e.g. variable_name = 'p_my_variable', new_value = 18
+            
+            Input:      variable_name:    string        setting variable id
+                        new_value         object        new value for this setting
+            Output:     - 
+        '''
+        self.timing_map_vals[variable_name] = new_value
+        
+           
+    def set_filter(self, msg_ids_allowed):
+        ''' set a list of allowed message identifiers. All ids not
+            provided will be filtered
+            
+            Input:      msg_ids_allowed:    list        list of message identifiers that are let pass by this Gateway
+
+            Output:     -             
+            '''
+        self.allowed_msg_ids = msg_ids_allowed

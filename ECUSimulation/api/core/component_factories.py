@@ -91,8 +91,9 @@ class AbstractComponentFactory(Singleton):
             Input:    path             string        path to folder with classes
                       variable         string        variable that defines the method name for the filter
             Output:    -
-        '''           
-        
+        '''                  
+
+
         for file in os.listdir(path):
             
             # python files

@@ -341,7 +341,8 @@ class RapidCANBus(AbstractCANBus):
         return False
     
     def _try_logging_transmission(self, t_propagation, t_sending):
-        ''' notes the times that it takes to send the messages
+        ''' notes the times that it takes to send the messages. In case an erroneous message
+            is sent this method logs the exception
         
             Input:  t_propagation:    float    time it takes to propagate the message
                     t_sending         float    time it takes to send the message
@@ -351,12 +352,7 @@ class RapidCANBus(AbstractCANBus):
             # Log transmission
             L().log(300, self.sim_env.now, self.current_message.sender_id, float(self.current_message_length_bit) / 8.0, \
                     self.current_message_length_bit, self.comp_id, self.current_message.data.get(), t_propagation + t_sending) 
-        except:
-            # Log data
-            # logging.error("Error %s " % self.current_message.data)            
-            # try: logging.error("Error %s " % self.current_message.data.get())
-            # except:  pass
-            
+        except:      
             # Log traceback
             ECULogger().log_traceback()
             try: 

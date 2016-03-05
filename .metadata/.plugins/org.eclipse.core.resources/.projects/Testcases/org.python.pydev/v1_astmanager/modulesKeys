@@ -1,0 +1,17 @@
+MODULES_MANAGER_V2
+testcases.__init__|C:\Users\Artur\Documents\TUM CREATE\IVNS\Testcases\testcases\__init__.py
+testcases.devices.__init__|C:\Users\Artur\Documents\TUM CREATE\IVNS\Testcases\testcases\devices\__init__.py
+testcases.devices.ecus.__init__|C:\Users\Artur\Documents\TUM CREATE\IVNS\Testcases\testcases\devices\ecus\__init__.py
+testcases.devices.ecus.impl_app_layer_test|C:\Users\Artur\Documents\TUM CREATE\IVNS\Testcases\testcases\devices\ecus\impl_app_layer_test.py
+testcases.devices.ecus.impl_app_layer_test_tesla|C:\Users\Artur\Documents\TUM CREATE\IVNS\Testcases\testcases\devices\ecus\impl_app_layer_test_tesla.py
+testcases.devices.ecus.impl_app_layer_test_tls|C:\Users\Artur\Documents\TUM CREATE\IVNS\Testcases\testcases\devices\ecus\impl_app_layer_test_tls.py
+testcases.devices.ecus.impl_ecu_test|C:\Users\Artur\Documents\TUM CREATE\IVNS\Testcases\testcases\devices\ecus\impl_ecu_test.py
+testcases.devices.ecus.impl_ecu_test_tesla|C:\Users\Artur\Documents\TUM CREATE\IVNS\Testcases\testcases\devices\ecus\impl_ecu_test_tesla.py
+testcases.devices.ecus.impl_ecu_tls|C:\Users\Artur\Documents\TUM CREATE\IVNS\Testcases\testcases\devices\ecus\impl_ecu_tls.py
+testcases.synthetic.__init__|C:\Users\Artur\Documents\TUM CREATE\IVNS\Testcases\testcases\synthetic\__init__.py
+testcases.synthetic.test|C:\Users\Artur\Documents\TUM CREATE\IVNS\Testcases\testcases\synthetic\test.py
+testcases.utilities.__init__|C:\Users\Artur\Documents\TUM CREATE\IVNS\Testcases\testcases\utilities\__init__.py
+testcases.utilities.archConfig|C:\Users\Artur\Documents\TUM CREATE\IVNS\Testcases\testcases\utilities\archConfig.py
+testcases.utilities.archGenerator|C:\Users\Artur\Documents\TUM CREATE\IVNS\Testcases\testcases\utilities\archGenerator.py
+testcases.utilities.archSaver|C:\Users\Artur\Documents\TUM CREATE\IVNS\Testcases\testcases\utilities\archSaver.py
+testcases.utilities.message|C:\Users\Artur\Documents\TUM CREATE\IVNS\Testcases\testcases\utilities\message.py

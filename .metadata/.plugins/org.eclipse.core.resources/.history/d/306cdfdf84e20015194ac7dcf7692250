@@ -1,0 +1,180 @@
+import os
+import imp
+from tools.singleton import Singleton
+from tools.ecu_logging import ECULogger as L
+from tools.general import General as G
+
+class AbstractComponentFactory(Singleton):
+    ''' This factory generates components from classes that are
+        defined in files of a specified folder '''
+    
+    
+    def __init__(self):       
+        ''' constructor '''
+        self.create_dict = {}
+    
+        
+    def add_class(self, class_id, class_gen):
+        ''' adds a class that can be later generated
+            by the factory given its class_id
+            
+            Input:    class_id         string        Identifier under which the lass can be generated
+                      class_gen        class         class that can be genrated
+            Output:    -
+        '''
+        self.create_dict[class_id] = class_gen
+        
+    
+    def get_class(self, class_id):
+        ''' returns the class associated to the
+            given class_id
+            
+            Input:    class_id         string        Identifier of the class to be returned
+            Output:    -
+        '''
+        GeneratedClass = self.create_dict[class_id]
+        return GeneratedClass
+        
+    
+    def make(self, class_id, constructor_in):
+        ''' given the constructor parameters for the class with class_id
+            the class with the specified id will be created and returned
+        
+            Input:    class_id             string         Identifier of the class to be generated
+                      constructor_in       list           list of constructor parameters for this specific class
+            Output:    instance             object         instance of the specified class
+        
+        '''
+        try:
+            # extract class
+            GeneratedClass = self.create_dict[class_id]  # @UnusedVariable
+            
+            # create constructor input
+            in_str = ""
+            for i in range(len(constructor_in)):
+                in_str += "constructor_in[" + str(i) + "], "            
+            in_str = in_str [:-2]
+            
+            # return instance
+            return eval('GeneratedClass(' + in_str + ')')
+        
+        except:  
+            L().log_traceback()     
+            return G().val_log_info(None, 201, class_id)     
+        
+    
+    def createable_objects(self):
+        ''' returns a list of creatable objects
+        
+            Input:    -
+            Ouput:    obj    list    list of createable objects
+        '''
+        return self.create_dict.keys()
+
+    
+    def load_classes(self):       
+        ''' loads all classes that are creatable into the dictionary
+        
+            Input:    -
+            Ouput:    -
+        ''' 
+        raise NotImplementedError("load_classes was not implemented by class %s" % self.__class__)
+           
+     
+    def _add_classes(self, path, variable):     
+        ''' adds a class that can be later generated
+            by the factory given. therefor all classes under the
+            path path are inspected. All classes that do have a 
+            function with name variable are then added to the set
+            of createable classes
+            
+            Input:    path             string        path to folder with classes
+                      variable         string        variable that defines the method name for the filter
+            Output:    -
+        '''                  
+        
+
+        for file in os.listdir(path):
+            
+            # python files
+            if file[-2:] == 'py':
+                try: impo = imp.load_source('util', os.path.join(path, file))
+                except:
+                    L().log_traceback()
+                    continue
+                
+                # iterate classes in path
+                for da_key in impo.__dict__.keys():
+                    
+                    # ignore abstract classes
+                    if da_key[:2] != '__' and da_key[:8] != 'Abstract':
+                        
+                        # check specified variable exists
+                        try:
+                            obj = impo.__dict__[da_key]
+                            test_dir = dir(obj)                            
+                            if variable in test_dir: self.add_class(da_key, impo.__dict__[da_key])
+                        except:
+                            continue
+
+class ECUFactory(AbstractComponentFactory):
+    ''' 
+    Generates ECUs in all specified paths
+    '''
+    
+    def __init__(self):
+        ''' constructor '''
+        AbstractComponentFactory.__init__(self)        
+    
+          
+    def load_classes(self):
+        ''' loads all classes that are creatable into the dictionary
+        
+            Input:    -
+            Ouput:    -
+        ''' 
+        class_path_ecus = os.path.join(os.path.dirname(__file__), "../../components/base/ecu/types")
+        class_path_security = os.path.join(os.path.dirname(__file__), "../../components/security/ecu/types")        
+        class_path_gateways = os.path.join(os.path.dirname(__file__), "../../components/base/gateways")
+        
+        self._add_classes(class_path_ecus, '_GET_ABSTRACT_ECU')
+        self._add_classes(class_path_security, '_GET_ABSTRACT_ECU')
+        self._add_classes(class_path_gateways, '_GET_ABSTRACT_ECU')
+    
+       
+    def register_path(self, class_path_ecus):
+        ''' adds further paths to the folders with createable objects
+        
+            Input:    class_path_ecus        string        path to the folder with ECUs
+            Ouput:    -                    
+        '''
+        self._add_classes(class_path_ecus, '_GET_ABSTRACT_ECU')
+        
+class BusFactory(AbstractComponentFactory):
+    ''' 
+    Generates Busses in all specified paths
+    '''
+    
+    
+    def __init__(self):
+        ''' constructor '''
+        AbstractComponentFactory.__init__(self)
+        
+    
+    def load_classes(self):
+        ''' loads all classes that are creatable into the dictionary
+        
+            Input:    -
+            Ouput:    -
+        '''
+        class_path = os.path.join(os.path.dirname(__file__), "../../components/base/bus")
+        self._add_classes(class_path, '_GET_ABSTRACT_BUS')
+    
+    
+    def register_path(self, class_path):
+        ''' adds further paths to the folders with createable objects
+        
+            Input:    class_path_ecus        string        path to the folder with Busses
+            Ouput:    -                    
+        '''
+        self._add_classes(class_path, '_GET_ABSTRACT_BUS')

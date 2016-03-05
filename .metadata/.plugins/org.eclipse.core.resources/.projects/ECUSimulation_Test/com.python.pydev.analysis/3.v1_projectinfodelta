@@ -1,0 +1,11 @@
+INSTUPrun_test
+C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUSimulation_Test\run_test.py
+INFOS:&&3|1|2|0&&3|3|2|0&&3|4|2|0&&3|5|2|0&&3|6|2|0&&3|7|2|0&&3|8|2|0
+csv_output_check_suite=8
+run_test=2
+sec_mod_timeout_settings_suite=6
+sec_mod_sizes_settings_suite=7
+ecu_sizes_settings_suite=5
+ecu_timeout_settings_suite=3
+api_suite=1
+ecu_project_settings_suite=4

@@ -1,0 +1,27 @@
+MODULES_MANAGER_V2
+gui.__init__|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\__init__.py
+gui.direct_view_window|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\direct_view_window.py
+gui.gui_builder|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\gui_builder.py
+gui.main_window|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\main_window.py
+gui.plugins.__init__|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\plugins\__init__.py
+gui.plugins.abstract_widget_plug|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\plugins\abstract_widget_plug.py
+gui.plugins.settings.__init__|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\plugins\settings\__init__.py
+gui.plugins.settings.abstract_settings_plug|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\plugins\settings\abstract_settings_plug.py
+gui.plugins.settings.create_simulation_files.__init__|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\plugins\settings\create_simulation_files\__init__.py
+gui.plugins.settings.create_simulation_files.create_simulation_adapter|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\plugins\settings\create_simulation_files\create_simulation_adapter.py
+gui.plugins.settings.create_simulation_impl|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\plugins\settings\create_simulation_impl.py
+gui.plugins.settings.set_manager_impl|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\plugins\settings\set_manager_impl.py
+gui.plugins.settings.std_settings_impl|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\plugins\settings\std_settings_impl.py
+gui.plugins.views.__init__|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\plugins\views\__init__.py
+gui.plugins.views.abstract_viewer_plug|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\plugins\views\abstract_viewer_plug.py
+gui.plugins.views.buffer_view_impl|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\plugins\views\buffer_view_impl.py
+gui.plugins.views.can_bus_state_view_impl|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\plugins\views\can_bus_state_view_impl.py
+gui.plugins.views.can_bus_view_impl|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\plugins\views\can_bus_view_impl.py
+gui.plugins.views.checkpoint_view_impl|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\plugins\views\checkpoint_view_impl.py
+gui.plugins.views.constellation_view_impl|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\plugins\views\constellation_view_impl.py
+gui.plugins.views.ecu_messages_view_impl|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\plugins\views\ecu_messages_view_impl.py
+gui.plugins.views.event_line_view_impl|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\plugins\views\event_line_view_impl.py
+gui.plugins.views.message_count_view_impl|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\plugins\views\message_count_view_impl.py
+gui.plugins.views.test_view_impl|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\plugins\views\test_view_impl.py
+gui.plugins.widget_factories|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\gui\plugins\widget_factories.py
+main|C:\Users\Artur\Documents\TUM CREATE\IVNS\ECUInteraction\main.py

@@ -1,0 +1,51 @@
+import unittest as unittest
+from unit_tests.api.core.test_api_core import APICoreTest
+from integration_tests.components.secure_ecu.timings_test import SecureECUTimingIntegrationTest
+from integration_tests.components.secure_ecu.settings_test import SecureECUSettingsIntegrationTest
+from integration_tests.components.secure_ecu.sizes_test import SecureECUSizesIntegrationTest
+from integration_tests.components.sec_mod_lwa.timings_test import SecLwAuthSecurityModuleTimingIntegrationTest
+from integration_tests.components.sec_mod_lwa.sizes_test import SecLwAuthSecurityModuleSizesIntegrationTest
+from test_files.csv_run_check import CSVRunLWATest
+
+
+# Unittests
+# print("\n----------------------------------------------- RUN APICore Test -----------------------------------------------")
+api_suite = unittest.TestLoader().loadTestsFromTestCase(APICoreTest)
+# unittest.TextTestRunner(verbosity=2).run(api_suite)
+
+# Integration Tests
+print("\n----------------------------------------------- RUN Integration Test Timing of SecureECUs -----------------------------------------------")
+ecu_timeout_settings_suite = unittest.TestLoader().loadTestsFromTestCase(SecureECUTimingIntegrationTest)
+ecu_project_settings_suite = unittest.TestLoader().loadTestsFromTestCase(SecureECUSettingsIntegrationTest)
+ecu_sizes_settings_suite = unittest.TestLoader().loadTestsFromTestCase(SecureECUSizesIntegrationTest)
+
+print("\n----------------------------------------------- RUN Integration Test Timing of SecLwAuthSecurityModule -----------------------------------------------")
+sec_mod_timeout_settings_suite = unittest.TestLoader().loadTestsFromTestCase(SecLwAuthSecurityModuleTimingIntegrationTest)
+sec_mod_sizes_settings_suite = unittest.TestLoader().loadTestsFromTestCase(SecLwAuthSecurityModuleSizesIntegrationTest)
+
+print("\n----------------------------------------------- RUN Test CSV List output under different configuration -----------------------------------------------")
+csv_output_check_suite = unittest.TestLoader().loadTestsFromTestCase(CSVRunLWATest)
+
+
+
+unittest.TextTestRunner(verbosity=2).run(csv_output_check_suite)
+
+
+
+
+
+
+
+
+
+
+
+
+# running suites
+# suite1 = unittest.TestLoader().loadTestsFromTestCase(MyClassTest1)
+# suite2 = unittest.TestLoader().loadTestsFromTestCase(MyClassTest2)
+# suite = unittest.TestSuite([suite1, suite2])
+# unittest.TextTestRunner(verbosity=2).run(suite)
+
+
+# running only some methods of suites

@@ -4,6 +4,7 @@ Created on 27 Apr, 2015
 @author: artur.mrowca
 '''
 from uuid import uuid4
+
 '''===============================================================================
     GUI Part
 ==============================================================================='''
@@ -16,9 +17,8 @@ from PyQt4.Qt import QWidget, QObject
 from PyQt4.QtCore import Qt, QPoint
 from PyQt4.QtGui import QHBoxLayout, QVBoxLayout, QDialog, QGridLayout, QScrollArea, \
     QHeaderView, QComboBox, QStackedWidget, QMessageBox, QAction
-
+from api.core.component_factories import ECUFactory, BusFactory
 import api
-from api.api_core import ECUFactory, BusFactory
 from gui.gui_builder import GBuilder, DragLabel, DragSelection, LineConnection, \
     EnvironmentView
 from gui.plugins.settings.abstract_settings_plug import AbstractSettingsPlugin

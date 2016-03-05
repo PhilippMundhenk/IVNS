@@ -4,9 +4,9 @@ import threading
 class AutomotiveEnvironmentSpec(object):
     ''' 
     This class holds the information needed to generate a 
-    valid simulation
-    '''
-    
+    valid simulation. From this object the simulation is then 
+    generated.
+    '''    
     CNT = 0
     
     def __init__(self, app_lifetime):
@@ -21,7 +21,7 @@ class AutomotiveEnvironmentSpec(object):
         self.result_reader = None
         self.autoset_gateway_filters = []
         self.ecu_ids = []
-        self.ecu_groups = []                 
+        self.ecu_groups = []
         self.bus_ids = []
         self.gui_lock_sync = threading.Lock()
         self.busses = []        
@@ -37,7 +37,6 @@ class AutomotiveEnvironmentSpec(object):
         self.app_lifetime = app_lifetime
         self.monitor = False
         self.derived_msg_sizes = {}  # key[ECUID][setting]
-        
         self.but_thread = None
     
     
