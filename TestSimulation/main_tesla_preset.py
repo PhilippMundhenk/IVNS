@@ -4,7 +4,7 @@
     author:             Artur Mrowca
     last modified:      24/07/2015
     usage:              python main_tesla.py  
-    python version:     3.0
+    python version:     2.7
     description:        this module exemplarily shows the functionality of the ECUSimulation     
                         project for the TESLA (Timed Efficient Stream Loss-Tolerant Authentication)
                         environment as it is defined in RFC 4442 It also describes how the API of 

@@ -285,16 +285,6 @@ for ecu_id in ecu_ids:
      
 
 
-#===============================================================================
-#     Save and load the environment from a file (not working yet)
-#===============================================================================
-
-# Save environment
-# filepath = os.path.join(os.path.dirname(__file__), "environments/1.env")
-# api.save_env_spec(sim_env, filepath)  
-# sim_env = api.load_env_spec(filepath)
-    
-
 
 #===========================================================================
 #     Monitoring and Export of Results
