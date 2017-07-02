@@ -5,10 +5,10 @@ The In-Vehicle Network Simulator (IVNS) is a Python-based simulator, allowing to
 
 The design and implementation of this work has been performed by **Artur Mrowca**.
 
-##Support
+## Support
 This work has been created in TUM CREATE and was financially supported by the Singapore National Research Foundation under its Campus for Research Excellence and Technological Enterprise (CREATE) program.
 
-##Description
+## Description
 
 This simulator simulates any bus topology within any network on a timing bases. It allows to define 
 the number and behaviour of various ECUs by reimplementing them, to send certain message flows and to 
@@ -29,7 +29,7 @@ interconnected. Also the ECUs themselves consist of layers including a physical,
 a transport layer, as well as a communication layer and a application layer.
 
 
-##1. Structure of the IVNS repository
+## 1. Structure of the IVNS repository
 
 The uploaded project is structured into 3 subprojects.
 
@@ -46,7 +46,7 @@ The uploaded project is structured into 3 subprojects.
 			  to generate a running simulation using the building bricks given in the
 			  ECUSimulation.
 
-##2. ECUSimulation - Basic Components
+## 2. ECUSimulation - Basic Components
 
 As indicated below, the simulator consists of a database, configuration files and the simulation core.
 To achieve realisitic results for the timing behaviour of security protocols, this simulator offers the
@@ -76,18 +76,10 @@ An easy way to get started is to download the ECUSimulation, ECUInteraction and 
 PyDev on it. By then running the python file main_lwa_preset.py in TestSimulation the setup of a simulation is demonstrated.
 
 
-##3. Walkthroughs
-##3.1. Create environment with existing ECUs
+## 3. Walkthroughs
 
-To use existing ECUs and components of the simulator please take a look at the main_lwa_preset.py file as it explaines the
-existing functionality.
-This allows to send messages using the LASAN Protocol as introduced by Philipp Mundhenk et. al using defined settings.
+For tutorials and how to use the simulator checkout the wiki at: https://github.com/arturmrowca/IVNS/wiki
 
-##3.2. Further Walkthroughs - Coming Soon
-Including: 
-	- Designing and testing custom protocols and components
-	- Adding custom GUI Plugins
-	- Adding custom output Plugins
 
 
 
